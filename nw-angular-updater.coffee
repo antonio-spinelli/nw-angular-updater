@@ -72,8 +72,7 @@ class UpdateService
     #Don't wait for it
     child.unref();
     #Quit current
-    GUI.window.hide(); # hide window to prevent black display
-    GUI.app.quit();  # quit node-webkit app
+    GUI.App.quit();  # quit node-webkit app
 
 class UpdateServiceProvider
   setInfoUrl: (@infoUrl) -> @

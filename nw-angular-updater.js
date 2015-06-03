@@ -128,8 +128,7 @@
         detached: true
       });
       child.unref();
-      GUI.window.hide();
-      return GUI.app.quit();
+      return GUI.App.quit();
     };
 
     return UpdateService;
