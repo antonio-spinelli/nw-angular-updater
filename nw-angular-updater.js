@@ -40,7 +40,20 @@
       this.http.get(this.infoUrl).success((function(_this) {
         return function(data) {
           _this.checking = false;
-          _this.updateRequired = data.version > _this.currentVersion;
+          //_this.updateRequired = data.version > _this.currentVersion;
+          _this.latestVersion = _this.currentVersion;
+          var latestVersion = data.version.split(".");
+          var currentVersion = _this.currentVersion.split(".");
+          for (var i = 0; i < latestVersion.length; i++) {
+            if (!currentVersion[i]) {
+              currentVersion[i] = "0";
+            }
+            if (latestVersion[i] > currentVersion[i]) {
+              _this.updateRequired = true;
+              _this.latestVersion = data.version;
+              break;
+            }
+          }
           return deferred.resolve(_this.updateRequired);
         };
       })(this));
