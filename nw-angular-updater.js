@@ -36,7 +36,7 @@
       deferred = this.q.defer();
       this.updateRequired = false;
       this.checking = true;
-      this.http.get(this.infoUrl).success((function(_this) {
+      this.http.get(this.infoUrl, {cache: false}).success((function(_this) {
         return function(data) {
           _this.checking = false;
           //_this.updateRequired = data.version > _this.currentVersion;
@@ -47,7 +47,9 @@
             if (!currentVersion[i]) {
               currentVersion[i] = "0";
             }
-            if (latestVersion[i] > currentVersion[i]) {
+            var current = parseInt(currentVersion[i]);
+            var latest = parseInt(latestVersion[i]);
+            if (latest > current) {
               _this.updateRequired = true;
               _this.latestVersion = data.version;
               break;
