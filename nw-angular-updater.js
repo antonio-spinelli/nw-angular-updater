@@ -53,6 +53,8 @@
               _this.updateRequired = true;
               _this.latestVersion = data.version;
               break;
+            } else if (current > latest) {
+              break;
             }
           }
           return deferred.resolve(_this.updateRequired);
