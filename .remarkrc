@@ -1,0 +1,10 @@
+{
+  "plugins": {
+    "lint": {
+      "list-item-spacing": false,
+      "list-item-indent": false,
+      "ordered-list-marker-value": false,
+      "maximum-line-length": 150
+    }
+  }
+}
