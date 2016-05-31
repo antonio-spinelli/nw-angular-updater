@@ -19,15 +19,18 @@
     function UpdateService(q1, http1, arg, auto) {
       this.q = q1;
       this.http = http1;
-      this.infoUrl = arg.infoUrl, this.downloadUrl = arg.downloadUrl, this.filename = arg.filename, this.currentVersion = arg.currentVersion;
-      this.auto = auto != null ? auto : true;
+      this.infoUrl = arg.infoUrl;
+      this.downloadUrl = arg.downloadUrl;
+      this.filename = arg.filename;
+      this.currentVersion = arg.currentVersion;
+      this.auto = auto !== null ? auto : true;
       if (!this.infoUrl || !this.downloadUrl || !this.filename || !this.currentVersion) {
         throw new Error('Not Configured');
       }
       if (this.auto) {
         this.checkAndUpdate();
       } else {
-        this.check;
+        this.check();
       }
     }
 
@@ -41,11 +44,11 @@
           _this.checking = false;
           //_this.updateRequired = data.version > _this.currentVersion;
           _this.latestVersion = _this.currentVersion;
-          var latestVersion = data.version.split(".");
-          var currentVersion = _this.currentVersion.split(".");
+          var latestVersion = data.version.split('.');
+          var currentVersion = _this.currentVersion.split('.');
           for (var i = 0; i < latestVersion.length; i++) {
             if (!currentVersion[i]) {
-              currentVersion[i] = "0";
+              currentVersion[i] = '0';
             }
             var current = parseInt(currentVersion[i]);
             var latest = parseInt(latestVersion[i]);
@@ -67,7 +70,7 @@
       var deferred, file;
       deferred = this.q.defer();
       this.downloading = true;
-      file = fs.createWriteStream(path.join(__DIR, this.filename + ".download"));
+      file = fs.createWriteStream(path.join(__DIR, this.filename + '.download'));
       http.get(this.downloadUrl, (function(_this) {
         return function(response) {
           response.pipe(file);
@@ -101,7 +104,7 @@
     UpdateService.prototype.rename = function() {
       var deferred;
       deferred = this.q.defer();
-      fs.rename(path.join(__DIR, this.filename + ".download"), path.join(__DIR, this.filename), function(err) {
+      fs.rename(path.join(__DIR, this.filename + '.download'), path.join(__DIR, this.filename), function(err) {
         if (err) {
           return deferred.reject(err);
         } else {
@@ -130,10 +133,11 @@
         return function() {
           return _this.rename();
         };
-      })(this))["catch"]((function(_this) {
+      })(this))['catch']((function(_this) {
         return function(err) {
           console.log('error', err);
-          return _this.checking = _this.downloading = _this.restartRequired = false;
+          _this.checking = _this.downloading = _this.restartRequired = false;
+          return false;
         };
       })(this));
     };
