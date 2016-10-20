@@ -137,7 +137,7 @@
         return function(err) {
           console.log('error', err);
           _this.checking = _this.downloading = _this.restartRequired = false;
-          return false;
+          return {error: err};
         };
       })(this));
     };
